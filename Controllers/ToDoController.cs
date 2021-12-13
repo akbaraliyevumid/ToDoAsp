@@ -76,5 +76,24 @@ namespace ToDoAppInASP.Controllers
             }
             return View(item);
         }
+
+        // GET /todo/delete/5
+        public async Task<ActionResult> Delete(int Id)
+        {
+            ToDoList item = await context.ToDoList.FindAsync(Id);
+            if (item == null)
+            {
+                TempData["Error"] = "The item does not exist!";
+            }
+            else
+            {
+                context.ToDoList.Remove(item);
+                await context.SaveChangesAsync();
+
+                TempData["Success"] = "The item has been deleted!";
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
