@@ -27,5 +27,25 @@ namespace ToDoAppInASP.Controllers
 
             return View(toDoLists);
         }
+
+        // GET /todo/create
+        public IActionResult Create() => View();
+
+        // POST /todo/create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(ToDoList item)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Add(item);
+                await context.SaveChangesAsync();
+
+                TempData["Success"] = "The item has been addes!";
+
+                return RedirectToAction("Index");
+            }
+            return View(item);
+        }
     }
 }
