@@ -47,5 +47,17 @@ namespace ToDoAppInASP.Controllers
             }
             return View(item);
         }
+
+        // GET /todo/edit/5
+        public async Task<ActionResult> Edit(int Id)
+        {
+            ToDoList item = await context.ToDoList.FindAsync(Id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
     }
 }
