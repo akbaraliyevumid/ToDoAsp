@@ -59,5 +59,22 @@ namespace ToDoAppInASP.Controllers
 
             return View(item);
         }
+
+        // POST /todo/edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ToDoList item)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Update(item);
+                await context.SaveChangesAsync();
+
+                TempData["Success"] = "The item has been updated!";
+
+                return RedirectToAction("Index");
+            }
+            return View(item);
+        }
     }
 }
